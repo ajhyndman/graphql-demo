@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import logo from './logo.svg';
 
@@ -14,7 +14,7 @@ const query = `
 `;
 
 const fetchName = async () => {
-  await fetch('/graphql', {
+  const response = await fetch('/graphql', {
     method: 'POST',
     body: JSON.stringify({
       query,
@@ -23,20 +23,26 @@ const fetchName = async () => {
       Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
     },
   });
+  const {data} = await response.json();
+  return data.viewer.name;
 };
 
 function App() {
+  const [name, setName] = useState('');
+
   useEffect(() => {
-    fetchName();
-  });
+    const updateName = async () => {
+      const name = await fetchName();
+      setName(name);
+    };
+    updateName();
+  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <p>You are authenticated as: {name}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
