@@ -1,8 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import React, {useEffect} from 'react';
+
+import logo from './logo.svg';
+
+const query = `
+  query {
+    viewer {
+      login
+      name
+    }
+  }
+`;
+
+const fetchName = async () => {
+  await fetch('/graphql', {
+    method: 'POST',
+    body: JSON.stringify({
+      query,
+    }),
+    headers: {
+      Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
+    },
+  });
+};
+
 function App() {
+  useEffect(() => {
+    fetchName();
+  });
+
   return (
     <div className="App">
       <header className="App-header">
