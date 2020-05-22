@@ -1,15 +1,11 @@
 import './App.css';
 
-import ApolloClient, {gql} from 'apollo-boost';
-import React, {useEffect, useState} from 'react';
+import {gql} from 'apollo-boost';
+import React from 'react';
+
+import {useQuery} from '@apollo/react-hooks';
 
 import logo from './logo.svg';
-
-const client = new ApolloClient({
-  headers: {
-    Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
-  },
-});
 
 const QUERY = gql`
   query {
@@ -20,29 +16,14 @@ const QUERY = gql`
   }
 `;
 
-const fetchName = async () => {
-  const {data} = await client.query({
-    query: QUERY,
-  });
-  return data.viewer.name;
-};
-
 function App() {
-  const [name, setName] = useState('');
-
-  useEffect(() => {
-    const updateName = async () => {
-      const name = await fetchName();
-      setName(name);
-    };
-    updateName();
-  }, []);
+  const {data} = useQuery(QUERY);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>You are authenticated as: {name}</p>
+        <p>You are authenticated as: {data?.viewer?.name}</p>
         <a
           className="App-link"
           href="https://reactjs.org"

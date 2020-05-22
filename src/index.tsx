@@ -1,12 +1,25 @@
+import './index.css';
+
+import ApolloClient from 'apollo-boost';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import {ApolloProvider} from '@apollo/react-hooks';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const client = new ApolloClient({
+  headers: {
+    Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
+  },
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
