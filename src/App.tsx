@@ -1,10 +1,17 @@
 import './App.css';
 
+import ApolloClient, {gql} from 'apollo-boost';
 import React, {useEffect, useState} from 'react';
 
 import logo from './logo.svg';
 
-const query = `
+const client = new ApolloClient({
+  headers: {
+    Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
+  },
+});
+
+const QUERY = gql`
   query {
     viewer {
       login
@@ -14,16 +21,9 @@ const query = `
 `;
 
 const fetchName = async () => {
-  const response = await fetch('/graphql', {
-    method: 'POST',
-    body: JSON.stringify({
-      query,
-    }),
-    headers: {
-      Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
-    },
+  const {data} = await client.query({
+    query: QUERY,
   });
-  const {data} = await response.json();
   return data.viewer.name;
 };
 
