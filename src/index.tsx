@@ -1,15 +1,47 @@
 import './index.css';
 
-import ApolloClient from 'apollo-boost';
+import ApolloClient, {IntrospectionFragmentMatcher} from 'apollo-boost';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {ApolloProvider} from '@apollo/react-hooks';
 
 import App from './App';
+import introspectionQueryResult from './introspectionQueryResult.json';
 import * as serviceWorker from './serviceWorker';
 
+// fetch('/graphql', {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//     Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
+//   },
+//   body: JSON.stringify({
+//     query: `
+//       {
+//         __schema {
+//           types {
+//             kind
+//             name
+//             possibleTypes {
+//               name
+//             }
+//           }
+//         }
+//       }
+//     `,
+//   }),
+// })
+//   .then((result) => result.json())
+//   .then((result) => {
+//     console.log(JSON.stringify(result));
+//   });
+
 const client = new ApolloClient({
+  fragmentMatcher: new IntrospectionFragmentMatcher({
+    // @ts-ignore: type declaration doesn't quite match the real JSON
+    introspectionQueryResultData: introspectionQueryResult.data,
+  }),
   headers: {
     Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
   },
