@@ -1,6 +1,6 @@
 import './index.css';
 
-import ApolloClient, {IntrospectionFragmentMatcher} from 'apollo-boost';
+import ApolloClient, {InMemoryCache, IntrospectionFragmentMatcher} from 'apollo-boost';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -41,6 +41,9 @@ const client = new ApolloClient({
   fragmentMatcher: new IntrospectionFragmentMatcher({
     // @ts-ignore: type declaration doesn't quite match the real JSON
     introspectionQueryResultData: introspectionQueryResult.data,
+  }),
+  cache: new InMemoryCache({
+    dataIdFromObject: (object) => object.id,
   }),
   headers: {
     Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
