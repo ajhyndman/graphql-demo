@@ -6,6 +6,7 @@ import React, {useState} from 'react';
 import {useQuery} from '@apollo/react-hooks';
 
 import Name, {VIEWER_FRAGMENT} from './components/Name';
+import Repository, {REPOSITORY_FRAGMENT} from './components/Repository';
 import {useQueryVariables} from './util/useQueryVariables';
 
 export const QUERY = gql`
@@ -20,7 +21,7 @@ export const QUERY = gql`
         node {
           ... on Repository {
             id
-            nameWithOwner
+            ...RepositoryFragment
           }
         }
       }
@@ -29,6 +30,7 @@ export const QUERY = gql`
   }
 
   # Fragment declarations here:
+  ${REPOSITORY_FRAGMENT}
   ${VIEWER_FRAGMENT}
 `;
 
@@ -47,16 +49,19 @@ function App() {
   return (
     <div className="App">
       <Name id={id} />
-      <input
-        value={query}
-        onChange={(event) => {
-          setQuery(event.target.value);
-        }}
-      />
+      <label>
+        Search for a repository:{' '}
+        <input
+          value={query}
+          onChange={(event) => {
+            setQuery(event.target.value);
+          }}
+        />
+      </label>
 
-      <div>{data.search.repositoryCount}</div>
+      <div>Matches: {data.search.repositoryCount}</div>
       {data.search.edges.map((edge: any) => {
-        return <div>{edge.node.nameWithOwner}</div>;
+        return <Repository key={id} id={edge.node.id} />;
       })}
     </div>
   );
