@@ -14,7 +14,7 @@ export const VIEWER_FRAGMENT = gql`
 `;
 
 const Name = ({id}: Props) => {
-  const viewer = useFragment({id, fragment: VIEWER_FRAGMENT, fragmentName: 'ViewerFragment'});
+  const viewer = useFragment({id, fragment: VIEWER_FRAGMENT});
 
   return <p>You are authenticated as: {viewer?.name}</p>;
 };

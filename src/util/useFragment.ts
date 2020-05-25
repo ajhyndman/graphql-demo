@@ -10,7 +10,7 @@ export const useFragment = ({
 }: {
   fragment: DocumentNode;
   id: string;
-  fragmentName: string;
+  fragmentName?: string;
 }) => {
   const client = useApolloClient();
   // let definition;
