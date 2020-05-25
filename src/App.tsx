@@ -1,46 +1,63 @@
 import './App.css';
 
 import {gql} from 'apollo-boost';
-import React from 'react';
+import React, {useState} from 'react';
 
 import {useQuery} from '@apollo/react-hooks';
 
 import Name, {VIEWER_FRAGMENT} from './components/Name';
-import logo from './logo.svg';
+import {useQueryVariables} from './util/useQueryVariables';
 
 export const QUERY = gql`
-  query {
+  query SearchQuery($query: String!) {
     viewer {
       id
       ...ViewerFragment
     }
+
+    search(query: $query, type: REPOSITORY, first: 10) {
+      edges {
+        node {
+          ... on Repository {
+            id
+            nameWithOwner
+          }
+        }
+      }
+      repositoryCount
+    }
   }
+
+  # Fragment declarations here:
   ${VIEWER_FRAGMENT}
 `;
 
 function App() {
-  const {data, loading} = useQuery(QUERY);
+  const [query, setQuery] = useState('');
+
+  const variables = useQueryVariables({query});
+  const {data} = useQuery(QUERY, {variables});
 
   const id = data?.viewer?.id;
 
-  if (loading) {
+  if (data == null) {
     return <>loading...</>;
   }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Name id={id} />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Name id={id} />
+      <input
+        value={query}
+        onChange={(event) => {
+          setQuery(event.target.value);
+        }}
+      />
+
+      <div>{data.search.repositoryCount}</div>
+      {data.search.edges.map((edge: any) => {
+        return <div>{edge.node.nameWithOwner}</div>;
+      })}
     </div>
   );
 }
