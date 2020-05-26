@@ -1,7 +1,10 @@
 import {DocumentNode} from 'apollo-boost';
+import {useContext, useEffect} from 'react';
 
 // import invariant from 'ts-invariant';
 import {useApolloClient} from '@apollo/react-hooks';
+
+import {FragmentContext} from './Query';
 
 export const useFragment = ({
   fragment,
@@ -12,6 +15,20 @@ export const useFragment = ({
   id: string;
   fragmentName?: string;
 }) => {
+  const {setFragments} = useContext(FragmentContext);
+  useEffect(() => {
+    setFragments((fragments) => {
+      fragments.add(fragment);
+      return fragments;
+    });
+    return () => {
+      setFragments((fragments) => {
+        fragments.delete(fragment);
+        return fragments;
+      });
+    };
+  }, [fragment, setFragments]);
+
   const client = useApolloClient();
   // let definition;
   // if (fragmentName != null) {
