@@ -10,6 +10,10 @@ import Repository, {REPOSITORY_FRAGMENT} from './components/Repository';
 import {useQueryVariables} from './util/useQueryVariables';
 
 export const QUERY = gql`
+  # Declare fragments before using them:
+  ${REPOSITORY_FRAGMENT}
+  ${VIEWER_FRAGMENT}
+
   query SearchQuery($query: String!) {
     viewer {
       id
@@ -28,10 +32,6 @@ export const QUERY = gql`
       repositoryCount
     }
   }
-
-  # Fragment declarations here:
-  ${REPOSITORY_FRAGMENT}
-  ${VIEWER_FRAGMENT}
 `;
 
 function App() {
