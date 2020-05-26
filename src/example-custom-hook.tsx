@@ -7,6 +7,10 @@ import {useApolloClient, useQuery} from '@apollo/react-hooks';
 
 declare const useProvider: <T>(context: Context<T>, value?: T) => void;
 
+/**
+ * Custom hooks
+ */
+
 const FragmentContext = createContext({
   fragments: [] as DocumentNode[],
   setFragments: (update: (fragments: DocumentNode[]) => DocumentNode[]) => {},
@@ -34,6 +38,10 @@ const useFragment = (id: string, fragment: DocumentNode) => {
   const client = useApolloClient();
   return client.readFragment({id, fragment});
 };
+
+/**
+ * Client code
+ */
 
 const App = () => {
   const {data} = useQueryWithFragments(gql`
