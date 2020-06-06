@@ -1,18 +1,11 @@
-import {gql} from 'apollo-boost';
 import React from 'react';
 
 import {useFragment} from '../util/useFragment';
+import REPOSITORY_FRAGMENT from './RepositoryFragment.gql';
 
 type Props = {
   id: string;
 };
-
-export const REPOSITORY_FRAGMENT = gql`
-  fragment RepositoryFragment on Repository {
-    id
-    nameWithOwner
-  }
-`;
 
 const Repository = ({id}: Props) => {
   const repository = useFragment({id, fragment: REPOSITORY_FRAGMENT});

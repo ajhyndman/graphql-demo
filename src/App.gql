@@ -1,0 +1,21 @@
+#import './components/RepositoryFragment.gql'
+#import './components/NameFragment.gql'
+
+query SearchQuery($query: String!) {
+  viewer {
+    id
+    ...NameFragment
+  }
+
+  search(query: $query, type: REPOSITORY, first: 10) {
+    edges {
+      node {
+        ... on Repository {
+          id
+          ...RepositoryFragment
+        }
+      }
+    }
+    repositoryCount
+  }
+}

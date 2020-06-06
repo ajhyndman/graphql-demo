@@ -38,6 +38,7 @@ import * as serviceWorker from './serviceWorker';
 //   });
 
 const client = new ApolloClient({
+  // @ts-ignore: third party type declaration isn't accurate
   fragmentMatcher: new IntrospectionFragmentMatcher({
     // @ts-ignore: type declaration doesn't quite match the real JSON
     introspectionQueryResultData: introspectionQueryResult.data,

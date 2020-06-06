@@ -1,38 +1,13 @@
 import './App.css';
 
-import {gql} from 'apollo-boost';
 import React, {useState} from 'react';
 
 import {useQuery} from '@apollo/react-hooks';
 
-import Name, {VIEWER_FRAGMENT} from './components/Name';
-import Repository, {REPOSITORY_FRAGMENT} from './components/Repository';
+import QUERY from './App.gql';
+import Name from './components/Name';
+import Repository from './components/Repository';
 import {useQueryVariables} from './util/useQueryVariables';
-
-export const QUERY = gql`
-  # Declare fragments before using them:
-  ${REPOSITORY_FRAGMENT}
-  ${VIEWER_FRAGMENT}
-
-  query SearchQuery($query: String!) {
-    viewer {
-      id
-      ...ViewerFragment
-    }
-
-    search(query: $query, type: REPOSITORY, first: 10) {
-      edges {
-        node {
-          ... on Repository {
-            id
-            ...RepositoryFragment
-          }
-        }
-      }
-      repositoryCount
-    }
-  }
-`;
 
 function App() {
   const [query, setQuery] = useState('');
