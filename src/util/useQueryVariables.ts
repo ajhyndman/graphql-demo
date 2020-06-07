@@ -2,16 +2,16 @@ import debounce from 'lodash.debounce';
 import {useCallback, useEffect, useState} from 'react';
 
 /**
- * Manage query variables with a one second debounce.
+ * Manage query variables with a debounce.
  *
  * @param nextVariables
  */
-export const useQueryVariables = (nextVariables: {[key: string]: any}) => {
+export const useQueryVariables = (nextVariables: {[key: string]: any}, timeout: number = 1000) => {
   const [variables, setVariables] = useState(nextVariables);
   const debouncedSetVariables = useCallback(
     debounce((variables: {[key: string]: any}) => {
       setVariables(variables);
-    }, 1000),
+    }, timeout),
     []
   );
   useEffect(() => {
