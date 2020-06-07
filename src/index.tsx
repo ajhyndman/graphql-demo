@@ -1,14 +1,29 @@
 import './index.css';
 
 import ApolloClient, {InMemoryCache, IntrospectionFragmentMatcher} from 'apollo-boost';
+// import {getIntrospectionQuery} from 'graphql';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {ApolloProvider} from '@apollo/react-hooks';
 
 import App from './App';
-import introspectionQueryResult from './introspectionQueryResult.json';
+import introspectionQueryResult from './fragmentTypes.json';
 import * as serviceWorker from './serviceWorker';
+
+// const fragmentMatcherQuery = `
+// {
+//   __schema {
+//     types {
+//       kind
+//       name
+//       possibleTypes {
+//         name
+//       }
+//     }
+//   }
+// }
+// `;
 
 // fetch('/graphql', {
 //   method: 'POST',
@@ -17,19 +32,7 @@ import * as serviceWorker from './serviceWorker';
 //     Authorization: `bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`,
 //   },
 //   body: JSON.stringify({
-//     query: `
-//       {
-//         __schema {
-//           types {
-//             kind
-//             name
-//             possibleTypes {
-//               name
-//             }
-//           }
-//         }
-//       }
-//     `,
+//     query: getIntrospectionQuery({descriptions: true}),
 //   }),
 // })
 //   .then((result) => result.json())
