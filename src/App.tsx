@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 
 import {useQuery} from '@apollo/react-hooks';
 
-import QUERY from './App.gql';
+import QUERY from './App.graphql';
 import Name from './components/Name';
 import Repository from './components/Repository';
 import {useQueryVariables} from './util/useQueryVariables';

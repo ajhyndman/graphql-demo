@@ -1,5 +1,5 @@
-#import './components/RepositoryFragment.gql'
-#import './components/NameFragment.gql'
+#import './components/RepositoryFragment.graphql'
+#import './components/NameFragment.graphql'
 
 query SearchQuery($query: String!) {
   viewer {

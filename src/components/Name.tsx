@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useFragment} from '../util/useFragment';
-import NAME_FRAGMENT from './NameFragment.gql';
+import NAME_FRAGMENT from './NameFragment.graphql';
 
 type Props = {
   id: string;

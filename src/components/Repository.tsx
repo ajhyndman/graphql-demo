@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useFragment} from '../util/useFragment';
-import REPOSITORY_FRAGMENT from './RepositoryFragment.gql';
+import REPOSITORY_FRAGMENT from './RepositoryFragment.graphql';
 
 type Props = {
   id: string;
